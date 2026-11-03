@@ -28,12 +28,14 @@ func strparse(d string, mem map[string]int) {
       s = ""
     }
   }
-  mem[s]++
+  if (s != " " && s != "") {
+    mem[s]++
+  }
 }
 
 func info(mem map[string]int) {
-  for _, m := range mem {
-    fmt.Println(m)
+  for i, m := range mem {
+    fmt.Println(i, m)
   }
 }
 
