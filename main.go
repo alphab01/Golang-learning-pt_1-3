@@ -5,8 +5,21 @@ import (
   "os"
 )
 
+func removeslashn(d string) string {
+  s := ""
+  for i := 0; i < len(d); i++ {
+    if (string(d[i]) != "\n") {
+      s += string(d[i])
+    } else {
+      s += " "
+    }
+  }
+  return s
+}
+
 func strparse(d string, mem map[string]int) {
   s := ""
+  d = removeslashn(d)
   for i := 0; i < len(d); i++ {
     if (string(d[i]) != " ") {
       s += string(d[i])
