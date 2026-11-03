@@ -3,11 +3,12 @@ package main
 import (
   "fmt"
   "os"
+  "unicode/utf8"
 )
 
 func removeslashn(d string) string {
   s := ""
-  for i := 0; i < len(d); i++ {
+  for i := 0; i < utf8.RuneCountInString(d); i++ {
     if (string(d[i]) != "\n") {
       s += string(d[i])
     } else {
@@ -20,7 +21,7 @@ func removeslashn(d string) string {
 func strparse(d string, mem map[string]int) {
   s := ""
   d = removeslashn(d)
-  for i := 0; i < len(d); i++ {
+  for i := 0; i < utf8.RuneCountInString(d); i++ {
     if (string(d[i]) != " ") {
       s += string(d[i])
     } else {
