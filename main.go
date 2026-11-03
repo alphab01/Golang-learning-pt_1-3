@@ -5,5 +5,7 @@ import (
 )
 
 func main() {
-  fmt.Println("I like Gopher")
+  var s string
+  fmt.Scan(&s)
+  fmt.Println(s)
 }
