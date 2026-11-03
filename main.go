@@ -24,7 +24,9 @@ func strparse(d string, mem map[string]int) {
     if (string(d[i]) != " ") {
       s += string(d[i])
     } else {
-      mem[s]++
+      if (s != "" && s != " ") {
+        mem[s]++
+      }
       s = ""
     }
   }
@@ -34,9 +36,13 @@ func strparse(d string, mem map[string]int) {
 }
 
 func info(mem map[string]int) {
+  s := 0
   for i, m := range mem {
-    fmt.Println(i, m)
+    if (!(i == "" || i == " ")) {
+      s += len(i) * m
+    }
   }
+  fmt.Println("byte - ", s)
 }
 
 func main() {
