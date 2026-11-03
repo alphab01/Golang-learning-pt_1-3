@@ -5,10 +5,10 @@ import (
   "os"
 )
 
-func strparse(d string, mem [string]int) {
+func strparse(d string, mem map[string]int) {
   s := ""
   for i := 0; i < len(d); i++ {
-    if (d[i] != " ") {
+    if (string(d[i]) != " ") {
       s += string(d[i])
     } else {
       mem[s]++
@@ -26,5 +26,7 @@ func main() {
   d := make([]byte, 64)
   f.Read(d)
   fmt.Println(string(d))
-  mem := make([string]int)
+  mem := make(map[string]int)
+  strparse(string(d), mem)
+  fmt.Println(mem["kirill"])
 }
