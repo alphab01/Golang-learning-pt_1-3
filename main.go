@@ -31,6 +31,12 @@ func strparse(d string, mem map[string]int) {
   mem[s]++
 }
 
+func info(mem map[string]int) {
+  for _, m := range mem {
+    fmt.Println(m)
+  }
+}
+
 func main() {
   var s string
   fmt.Scan(&s)
@@ -41,5 +47,6 @@ func main() {
   fmt.Println(string(d))
   mem := make(map[string]int)
   strparse(string(d), mem)
-  fmt.Println(mem["kirill"])
+  //fmt.Println(mem["kirill"])
+  info(mem)
 }
