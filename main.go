@@ -4,6 +4,7 @@ import (
   "fmt"
   "os"
   "unicode/utf8"
+  "strings"
 )
 
 type pairintstr struct {
@@ -17,15 +18,15 @@ func strparse(d string, mem map[string]int) {
     if (string(d[i]) != " " && string(d[i]) != "\n") {
       s += string(d[i])
     } else if (string(d[i]) == " "){
-      mem[s]++
+      mem[strings.ToLower(s)]++
       s = ""
     } else if (string(d[i]) == "\n") {
-      mem[s]++
+      mem[strings.ToLower(s)]++
       s = ""
       mem["\n"]++
     }
   }
-  mem[s]++
+  mem[strings.ToLower(s)]++
 }
 
 func howmuchsym(a string) int {
