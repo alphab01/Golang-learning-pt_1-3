@@ -102,7 +102,7 @@ func main() {
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
   f, _ := os.Open(s)
-  d := make([]byte, 64)
+  d := make([]byte, 1000)
   q, _ := f.Read(d)
   //fmt.Println(string(d))
   mem := make(map[string]int)
