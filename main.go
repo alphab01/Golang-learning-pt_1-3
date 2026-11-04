@@ -53,10 +53,10 @@ func info(mem map[string]int) {
     }
   }
   fmt.Println("syms -", s)
-  s = 0
   for i, m := range mem {
     if (i == "\n") {
       fmt.Println("storcs -", m)
+      break
     }
   }
 }
