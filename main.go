@@ -180,6 +180,22 @@ func main() {
       fmt.Println(list[i], ":\n")
       topn(n, mem)
       fmt.Println()
+      f.Close()
+    }
+  } else {
+    for i := range list {
+      f, err := os.Open(list[i])
+      if (err != nil) {
+        continue
+      }
+      d := make([]byte, 1000)
+      q, _ := f.Read(d)
+      mem := make(map[string]int)
+      strparse(string(d[:q]), mem)
+      fmt.Println(list[i], ":\n")
+      info(mem)
+      fmt.Println()
+      f.Close()
     }
   }
   /*var s, reg string
