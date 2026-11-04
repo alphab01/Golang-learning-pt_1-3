@@ -101,18 +101,22 @@ func main() {
   var s, reg string
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
-  f, _ := os.Open(s)
-  d := make([]byte, 1000)
-  q, _ := f.Read(d)
-  //fmt.Println(string(d))
-  mem := make(map[string]int)
-  strparse(string(d[:q]), mem)
-  //fmt.Println(mem["kirill"])
-  if (reg == "stats") {
-    info(mem)
+  f, err := os.Open(s)
+  if (err != nil) {
+    fmt.Println("no file:((")
   } else {
-    var c int
-    fmt.Scan(&c)
-    topn(c, mem)
+    d := make([]byte, 1000)
+    q, _ := f.Read(d)
+    //fmt.Println(string(d))
+    mem := make(map[string]int)
+    strparse(string(d[:q]), mem)
+    //fmt.Println(mem["kirill"])
+    if (reg == "stats") {
+      info(mem)
+    } else {
+      var c int
+      fmt.Scan(&c)
+      topn(c, mem)
+    }
   }
 }
