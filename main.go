@@ -6,6 +6,11 @@ import (
   "unicode/utf8"
 )
 
+type pairintstr struct {
+  f int
+  s string
+}
+
 func strparse(d string, mem map[string]int) {
   s := ""
   for i := 0; i < utf8.RuneCountInString(d); i++ {
@@ -29,6 +34,30 @@ func howmuchsym(a string) int {
     s++
   }
   return s
+}
+
+func topn(d int, mem map[string]int) {
+  var q []pairintstr
+  for i, m := range mem {
+    if (i != "" && i != " " && i != "\n") {
+      p := pairintstr{f: m, s: i}
+      q = append(q, p)
+    }
+  }
+  for i := 0; i < len(q); i++ {
+    for j := 0; j < len(q) - 1; j++ {
+      if (q[j].f < q[j + 1].f) {
+        p := pairintstr{f: q[j].f, s: q[j].s}
+        q[j].f = q[j + 1].f
+        q[j].s = q[j + 1].s
+        q[j + 1].f = p.f
+        q[j + 1].s = p.s
+      }
+    }
+  }
+  for i := 0; i < d && i < len(q); i++ {
+    fmt.Println(q[i].f, " - ", q[i].s)
+  }
 }
 
 func info(mem map[string]int) {
@@ -80,5 +109,6 @@ func main() {
     strparse(string(d[:q]), mem)
     //fmt.Println(mem["kirill"])
     info(mem)
+    topn(2, mem)
   }
 }
