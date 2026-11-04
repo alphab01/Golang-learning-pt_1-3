@@ -2,7 +2,7 @@ package main
 
 import (
   "fmt"
-  "os"
+ // "os"
   "unicode/utf8"
   "strings"
   "strconv"
@@ -106,16 +106,26 @@ func getop(read string) (op string, n int){
         op = s
         i++
         s = ""
-        for i < len(read); i++ {
+        for i < len(read) {
           if (string(read[i]) != " ") {
             s += string(read[i])
           } else {
-            
+            n, _ = strconv.Atoi(s)
+            return
           }
+          i++
         }
+      } else {
+        n = 0
+        return
       }
+    } else {
+      s += string(read[i])
     }
   }
+  n = 0
+  op = "notgiven"
+  return
 }
 
 func main() {
