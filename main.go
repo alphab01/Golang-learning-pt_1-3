@@ -116,9 +116,14 @@ func getop(read string) (op string, n int, list []string){
             s = ""
             for k < len(read) {
               if (read[k] == " ") {
-                
+                list = append(list, s)
+                s = ""
+              } else {
+                s += read[k]
               }
+              k++
             }
+            list = append(list, s)
           }
           j++
         }
