@@ -100,15 +100,18 @@ func main() {
   var s, reg string
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
+  f, _ := os.Open(s)
+  d := make([]byte, 64)
+  q, _ := f.Read(d)
+  //fmt.Println(string(d))
+  mem := make(map[string]int)
+  strparse(string(d[:q]), mem)
+  //fmt.Println(mem["kirill"])
   if (reg == "stats") {
-    f, _ := os.Open(s)
-    d := make([]byte, 64)
-    q, _ := f.Read(d)
-    //fmt.Println(string(d))
-    mem := make(map[string]int)
-    strparse(string(d[:q]), mem)
-    //fmt.Println(mem["kirill"])
     info(mem)
-    topn(2, mem)
+  } else {
+    var c int
+    fmt.Scan(&c)
+    topn(c, mem)
   }
 }
