@@ -2,7 +2,7 @@ package main
 
 import (
   "fmt"
- // "os"
+  "os"
   "unicode/utf8"
   "strings"
   "strconv"
@@ -168,7 +168,17 @@ func main() {
   op, n, list := getop(s)
   fmt.Println(op, n)
   if (op == "topn") {
-    fmt.Println(list[0])
+    for i := range list {
+      f, err := os.Open(list[i])
+      if (err != nil) {
+        fmt.Println("no file:(((")
+      }
+      d := make([]byte, 1000)
+      q, _ := f.Read(d)
+      mem := make(map[string]int)
+      strparse(string(d[:q]), mem)
+      topn(n, mem)
+    }
   }
   /*var s, reg string
   fmt.Scan(&s, &reg)
