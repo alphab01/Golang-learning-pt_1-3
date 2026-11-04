@@ -177,7 +177,9 @@ func main() {
       q, _ := f.Read(d)
       mem := make(map[string]int)
       strparse(string(d[:q]), mem)
+      fmt.Println(list[i], ":\n")
       topn(n, mem)
+      fmt.Println()
     }
   }
   /*var s, reg string
