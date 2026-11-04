@@ -2,7 +2,7 @@ package main
 
 import (
   "fmt"
- // "os"
+  "os"
   "unicode/utf8"
   "strings"
   "strconv"
@@ -129,9 +129,10 @@ func getop(read string) (op string, n int){
 }
 
 func main() {
+  /*
   var read string
-  fmt.Scan(&read)
-  /* var s, reg string
+  fmt.Scan(&read)*/
+  var s, reg string
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
   f, err := os.Open(s)
@@ -151,5 +152,5 @@ func main() {
       fmt.Scan(&c)
       topn(c, mem)
     }
-  }*/
+  }
 }
