@@ -98,7 +98,7 @@ func info(mem map[string]int) {
   fmt.Println("MOST BIG -", str)
 }
 
-func getop(read string) (op string, n int){
+func getop(read string) (op string, n int, list []string){
   s := ""
   fmt.Println(read)
   for i := 0; i < len(read); i++ {
@@ -112,7 +112,13 @@ func getop(read string) (op string, n int){
             s += string(read[j])
           } else {
             n, _ = strconv.Atoi(s)
-            return
+            k := j + 1
+            s = ""
+            for k < len(read) {
+              if (read[k] == " ") {
+                
+              }
+            }
           }
           j++
         }
@@ -143,6 +149,9 @@ func main() {
   fmt.Println(s)
   op, n := getop(s)
   fmt.Println(op, n)
+  if (op == "topn") {
+    
+  }
   /*var s, reg string
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
