@@ -44,6 +44,11 @@ func info(mem map[string]int) {
     }
   }
   fmt.Println("byte - ", s)
+  s = 0
+  for _, m := range mem {
+    s += m
+  }
+  fmt.Println("words - ", s)
 }
 
 func main() {
