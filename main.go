@@ -54,6 +54,17 @@ func info(mem map[string]int) {
   }
   fmt.Println("syms -", s)
   fmt.Println("strok -", mem["\n"])
+  ma := 0
+  str := ""
+  for i, _ := range mem {
+    if (i != "" && i != " " && i != "\n") {
+      if (ma < utf8.RuneCountInString(i)) {
+        ma = utf8.RuneCountInString(i)
+        str = i
+      }
+    }
+  }
+  fmt.Println("MOST BIG -", str)
 }
 
 func main() {
