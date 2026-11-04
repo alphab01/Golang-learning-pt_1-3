@@ -23,6 +23,14 @@ func strparse(d string, mem map[string]int) {
   mem[s]++
 }
 
+func howmuchsym(a string) int {
+  s := 0
+  for range a {
+    s++
+  }
+  return s
+}
+
 func info(mem map[string]int) {
   s := 0
   for i, m := range mem {
@@ -30,15 +38,27 @@ func info(mem map[string]int) {
       s += len(i) * m
     }
   }
-  fmt.Println("byte - ", s)
+  fmt.Println("byte -", s)
   s = 0
   for i, m := range mem {
     if (i != "" && i != " " && i != "\n") {
       s += m
-      fmt.Println(i, m)
     }
   }
-  fmt.Println("words - ", s)
+  fmt.Println("words -", s)
+  s = 0
+  for i, m := range mem {
+    if (i != "" && i != " " && i != "\n") {
+      s += (howmuchsym(i) * m)
+    }
+  }
+  fmt.Println("syms -", s)
+  s = 0
+  for i, m := range mem {
+    if (i == "\n") {
+      fmt.Println("storcs -", m)
+    }
+  }
 }
 
 func main() {
