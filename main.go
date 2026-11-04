@@ -68,15 +68,17 @@ func info(mem map[string]int) {
 }
 
 func main() {
-  var s string
-  fmt.Scan(&s)
-  fmt.Println(s)
-  f, _ := os.Open(s)
-  d := make([]byte, 64)
-  q, _ := f.Read(d)
-  fmt.Println(string(d))
-  mem := make(map[string]int)
-  strparse(string(d[:q]), mem)
-  //fmt.Println(mem["kirill"])
-  info(mem)
+  var s, reg string
+  fmt.Scan(&s, &reg)
+  //fmt.Println(s)
+  if (reg == "stats") {
+    f, _ := os.Open(s)
+    d := make([]byte, 64)
+    q, _ := f.Read(d)
+    //fmt.Println(string(d))
+    mem := make(map[string]int)
+    strparse(string(d[:q]), mem)
+    //fmt.Println(mem["kirill"])
+    info(mem)
+  }
 }
