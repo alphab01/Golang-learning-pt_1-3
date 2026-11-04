@@ -5,6 +5,7 @@ import (
   "os"
   "unicode/utf8"
   "strings"
+  "strconv"
 )
 
 type pairintstr struct {
@@ -97,8 +98,30 @@ func info(mem map[string]int) {
   fmt.Println("MOST BIG -", str)
 }
 
+func getop(read string) (op string, n int){
+  s := ""
+  for i := 0; i < len(read); i++ {
+    if (string(read[i]) == " ") {
+      if (s == "topn") {
+        op = s
+        i++
+        s = ""
+        for i < len(read); i++ {
+          if (string(read[i]) != " ") {
+            s += string(read[i])
+          } else {
+            
+          }
+        }
+      }
+    }
+  }
+}
+
 func main() {
-  var s, reg string
+  var read string
+  fmt.Scan(&read)
+  /* var s, reg string
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
   f, err := os.Open(s)
@@ -118,5 +141,5 @@ func main() {
       fmt.Scan(&c)
       topn(c, mem)
     }
-  }
+  }*/
 }
