@@ -2,7 +2,7 @@ package main
 
 import (
   "fmt"
-  "os"
+ // "os"
   "unicode/utf8"
   "strings"
   "strconv"
@@ -100,20 +100,21 @@ func info(mem map[string]int) {
 
 func getop(read string) (op string, n int){
   s := ""
+  fmt.Println(read)
   for i := 0; i < len(read); i++ {
     if (string(read[i]) == " ") {
       if (s == "topn") {
         op = s
-        i++
+        j := i + 1
         s = ""
-        for i < len(read) {
-          if (string(read[i]) != " ") {
-            s += string(read[i])
+        for j < len(read) {
+          if (string(read[j]) != " ") {
+            s += string(read[j])
           } else {
             n, _ = strconv.Atoi(s)
             return
           }
-          i++
+          j++
         }
       } else {
         n = 0
@@ -129,10 +130,20 @@ func getop(read string) (op string, n int){
 }
 
 func main() {
-  /*
+  s := ""
   var read string
-  fmt.Scan(&read)*/
-  var s, reg string
+  for {
+    _, err := fmt.Scan(&read)
+    if (err != nil) {
+      break
+    }
+    s += read
+    s += " "
+  }
+  fmt.Println(s)
+  op, n := getop(s)
+  fmt.Println(op, n)
+  /*var s, reg string
   fmt.Scan(&s, &reg)
   //fmt.Println(s)
   f, err := os.Open(s)
@@ -152,5 +163,5 @@ func main() {
       fmt.Scan(&c)
       topn(c, mem)
     }
-  }
+  }*/
 }
