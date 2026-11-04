@@ -115,20 +115,33 @@ func getop(read string) (op string, n int, list []string){
             k := j + 1
             s = ""
             for k < len(read) {
-              if (read[k] == " ") {
+              if (string(read[k]) == " ") {
                 list = append(list, s)
                 s = ""
               } else {
-                s += read[k]
+                s += string(read[k])
               }
               k++
             }
             list = append(list, s)
+            return
           }
           j++
         }
       } else {
         n = 0
+        k := i + 1
+        s = ""
+        for k < len(read) {
+          if (string(read[k]) == " ") {
+            list = append(list, s)
+            s = ""
+          } else {
+            s += string(read[k])
+          }
+          k++
+        }
+        list = append(list, s)
         return
       }
     } else {
@@ -152,10 +165,10 @@ func main() {
     s += " "
   }
   fmt.Println(s)
-  op, n := getop(s)
+  op, n, list := getop(s)
   fmt.Println(op, n)
   if (op == "topn") {
-    
+    fmt.Println(list[0])
   }
   /*var s, reg string
   fmt.Scan(&s, &reg)
