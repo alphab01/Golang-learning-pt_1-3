@@ -180,6 +180,7 @@ func getop(read string) (op string, n int, list []string){
           j++
         }
       } else {
+        op = s
         n = 0
         k := i + 1
         s = ""
@@ -226,7 +227,7 @@ func main() {
         q, _ := f.Read(d)*/
         mem := make(map[string]int)
         strparse(string(f), mem)
-        fmt.Println(list[i], ":\n")
+        fmt.Println(list[i], ":")
         topn(n, mem)
         fmt.Println()
       }
@@ -242,13 +243,15 @@ func main() {
         q, _ := f.Read(d)
         mem := make(map[string]int)
         strparse(string(d[:q]), mem)*/
-        fmt.Println(list[i], ":\n")
+        fmt.Println(list[i], ":")
         mem := make(map[string]int)
         strparse(string(d), mem)
         info(mem)
         fmt.Println()
       }
     }
+  } else {
+    fmt.Println("err, operation not found", op)
   }
   /*var s, reg string
   fmt.Scan(&s, &reg)
