@@ -58,7 +58,8 @@ func topn(d int, mem map[string]int) {
     }
   }
   for i := 0; i < d && i < len(q); i++ {
-    fmt.Println(q[i].f, " - ", q[i].s)
+    s := fmt.Sprintf("%d.", i + 1)
+    fmt.Println(s, q[i].f, " - ", q[i].s)
   }
 }
 
@@ -182,7 +183,7 @@ func main() {
       fmt.Println()
       f.Close()
     }
-  } else {
+  } else if (op == "stats"){
     for i := range list {
       f, err := os.Open(list[i])
       if (err != nil) {
