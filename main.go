@@ -32,8 +32,8 @@ func strparse(d string, mem map[string]int) {
   } else {
     s := ""
     for i := 0; i < len(d); i += 2 {
-      if (string(d[i] + d[i + 1]) != " " && string(d[i] + d[i + 1]) != "\n" && !(string(d[i] + d[i + 1]) == " " || string(d[i] + d[i + 1]) == "," || string(d[i] + d[i + 1]) == "." || string(d[i] + d[i + 1]) == "!" || string(d[i] + d[i + 1]) == "?" || string(d[i] + d[i + 1]) == ";" || string(d[i] + d[i + 1]) == ":")) {
-        s += string(d[i] + d[i + 1])
+      if (string(d[i:i + 2]) != " " && string(d[i:i + 2]) != "\n" && !(string(d[i:i + 2]) == " " || string(d[i:i + 2]) == "," || string(d[i:i + 2]) == "." || string(d[i:i + 2]) == "!" || string(d[i:i + 2]) == "?" || string(d[i:i + 2]) == ";" || string(d[i:i + 2]) == ":")) {
+        s += string(d[i:i + 2])
       } else if (string(d[i] + d[i + 1]) == " " || string(d[i] + d[i + 1]) == "," || string(d[i] + d[i + 1]) == "." || string(d[i] + d[i + 1]) == "!" || string(d[i] + d[i + 1]) == "?" || string(d[i] + d[i + 1]) == ";" || string(d[i] + d[i + 1]) == ":"){
         mem[strings.ToLower(s)]++
         s = ""
