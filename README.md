@@ -11,8 +11,39 @@ bash
 
 операции:
 
-#stats
+# stats
 вывод количества байт, строк, символов и слов в файле
 
-#topn
+# topn
 вывод самых частовстречающихся слов в порядке невозрастания
+
+## пример работы команд
+
+```
+bsah
+
+stats a b
+a :
+byte - 15
+words - 3
+syms - 15
+strok - 2
+MOST BIG - kirill
+
+b :
+byte - 18
+words - 3
+syms - 18
+strok - 1
+MOST BIG - kirill
+
+```
+
+```
+bash
+topn 5 a 
+a :
+1. 1  -  art
+2. 1  -  kirill
+3. 1  -  petrov
+```
