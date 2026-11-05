@@ -31,16 +31,24 @@ func strparse(d string, mem map[string]int) {
     mem[strings.ToLower(s)]++
   } else {
     s := ""
-    for i := 0; i < len(d); i += 2 {
-      if (string(d[i:i + 2]) != " " && string(d[i:i + 2]) != "\n" && !(string(d[i:i + 2]) == " " || string(d[i:i + 2]) == "," || string(d[i:i + 2]) == "." || string(d[i:i + 2]) == "!" || string(d[i:i + 2]) == "?" || string(d[i:i + 2]) == ";" || string(d[i:i + 2]) == ":")) {
-        s += string(d[i:i + 2])
-      } else if (string(d[i] + d[i + 1]) == " " || string(d[i] + d[i + 1]) == "," || string(d[i] + d[i + 1]) == "." || string(d[i] + d[i + 1]) == "!" || string(d[i] + d[i + 1]) == "?" || string(d[i] + d[i + 1]) == ";" || string(d[i] + d[i + 1]) == ":"){
+    for i := 0; i < len(d); {
+      if (string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":"){
         mem[strings.ToLower(s)]++
         s = ""
-      } else if (string(d[i] + d[i + 1]) == "\n") {
+        i++
+      } else if (string(d[i]) == "\n") {
         mem[strings.ToLower(s)]++
         s = ""
         mem["\n"]++
+        i++
+      } else {
+        if (d[i] > 127) {
+          s += string(d[i:i + 2])
+          i += 2
+        } else {
+          s += string(d[i])
+          i++
+        }
       }
     }
     mem[strings.ToLower(s)]++
