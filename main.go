@@ -56,22 +56,28 @@ func topn(d int, mem map[string]int) {
         q[j + 1].s = p.s
       } else if (q[j].f == q[j + 1].f) {
         d1 := 0
-        for k := 0; k < q[j].s && k < q[j + 1].s; k++ {
+        for k := 0; k < utf8.RuneCountInString(q[j].s) && k < utf8.RuneCountInString(q[j + 1].s); k++ {
           if ((q[j].s)[k] < (q[j + 1].s)[k]) {
             d1 = 1
+            break
           } else if ((q[j].s)[k] > (q[j + 1].s)[k]) {
             d1 = 2
+            break
           }
         }
         if (d1 == 0) {
-          if (utf8.RuneCountInString(q[j].s) < utf8.RuneCountInstring(q[j + 1].s)) {
+          if (utf8.RuneCountInString(q[j].s) < utf8.RuneCountInString(q[j + 1].s)) {
             d1 = 1
           } else {
             d1 = 2
           }
         }
         if (d1 == 2) {
-          fmt.Println("Ya ustal, boss")
+          p := pairintstr{f: q[j].f, s: q[j].s}
+          q[j].f = q[j + 1].f
+          q[j].s = q[j + 1].s
+          q[j + 1].f = p.f
+          q[j + 1].s = p.s
         }
       }
     }
@@ -192,30 +198,32 @@ func main() {
       f, err := os.Open(list[i])
       if (err != nil) {
         fmt.Println("no file:(((")
+      } else {
+        d := make([]byte, 1000)
+        q, _ := f.Read(d)
+        mem := make(map[string]int)
+        strparse(string(d[:q]), mem)
+        fmt.Println(list[i], ":\n")
+        topn(n, mem)
+        fmt.Println()
+        f.Close()
       }
-      d := make([]byte, 1000)
-      q, _ := f.Read(d)
-      mem := make(map[string]int)
-      strparse(string(d[:q]), mem)
-      fmt.Println(list[i], ":\n")
-      topn(n, mem)
-      fmt.Println()
-      f.Close()
     }
   } else if (op == "stats"){
     for i := range list {
       f, err := os.Open(list[i])
       if (err != nil) {
-        continue
+        fmt.Println("not file 0_o")
+      } else {
+        d := make([]byte, 1000)
+        q, _ := f.Read(d)
+        mem := make(map[string]int)
+        strparse(string(d[:q]), mem)
+        fmt.Println(list[i], ":\n")
+        info(mem)
+        fmt.Println()
+        f.Close()
       }
-      d := make([]byte, 1000)
-      q, _ := f.Read(d)
-      mem := make(map[string]int)
-      strparse(string(d[:q]), mem)
-      fmt.Println(list[i], ":\n")
-      info(mem)
-      fmt.Println()
-      f.Close()
     }
   }
   /*var s, reg string
