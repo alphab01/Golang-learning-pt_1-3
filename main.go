@@ -18,7 +18,7 @@ func strparse(d string, mem map[string]int) {
   for i := 0; i < utf8.RuneCountInString(d); i++ {
     if (string(d[i]) != " " && string(d[i]) != "\n") {
       s += string(d[i])
-    } else if (string(d[i]) == " "){
+    } else if (string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":"){
       mem[strings.ToLower(s)]++
       s = ""
     } else if (string(d[i]) == "\n") {
