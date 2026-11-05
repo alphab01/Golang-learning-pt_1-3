@@ -14,20 +14,24 @@ type pairintstr struct {
 }
 
 func strparse(d string, mem map[string]int) {
-  s := ""
-  for i := 0; i < utf8.RuneCountInString(d); i++ {
-    if (string(d[i]) != " " && string(d[i]) != "\n") {
-      s += string(d[i])
-    } else if (string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":"){
-      mem[strings.ToLower(s)]++
-      s = ""
-    } else if (string(d[i]) == "\n") {
-      mem[strings.ToLower(s)]++
-      s = ""
-      mem["\n"]++
+  if (len(d) == utf8.RuneCountInString(d)) {
+    s := ""
+    for i := 0; i < utf8.RuneCountInString(d); i++ {
+      if (string(d[i]) != " " && string(d[i]) != "\n" && !(string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":")) {
+        s += string(d[i])
+      } else if (string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":"){
+        mem[strings.ToLower(s)]++
+        s = ""
+      } else if (string(d[i]) == "\n") {
+        mem[strings.ToLower(s)]++
+        s = ""
+        mem["\n"]++
+      }
     }
+    mem[strings.ToLower(s)]++
+  } else {
+    s := ""
   }
-  mem[strings.ToLower(s)]++
 }
 
 func howmuchsym(a string) int {
@@ -195,34 +199,35 @@ func main() {
   fmt.Println(op, n)
   if (op == "topn") {
     for i := range list {
-      f, err := os.Open(list[i])
+      f, err := os.ReadFile(list[i])
       if (err != nil) {
         fmt.Println("no file:(((")
       } else {
-        d := make([]byte, 1000)
-        q, _ := f.Read(d)
+        /*d := make([]byte, 1000)
+        q, _ := f.Read(d)*/
         mem := make(map[string]int)
-        strparse(string(d[:q]), mem)
+        strparse(string(f), mem)
         fmt.Println(list[i], ":\n")
         topn(n, mem)
         fmt.Println()
-        f.Close()
       }
     }
   } else if (op == "stats"){
     for i := range list {
-      f, err := os.Open(list[i])
+      d, err := os.ReadFile(list[i])
       if (err != nil) {
         fmt.Println("not file 0_o")
       } else {
+        /*
         d := make([]byte, 1000)
         q, _ := f.Read(d)
         mem := make(map[string]int)
-        strparse(string(d[:q]), mem)
+        strparse(string(d[:q]), mem)*/
         fmt.Println(list[i], ":\n")
+        mem := make(map[string]int)
+        strparse(string(d), mem)
         info(mem)
         fmt.Println()
-        f.Close()
       }
     }
   }
