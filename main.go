@@ -31,6 +31,19 @@ func strparse(d string, mem map[string]int) {
     mem[strings.ToLower(s)]++
   } else {
     s := ""
+    for i := 0; i < len(d); i += 2 {
+      if (string(d[i] + d[i + 1]) != " " && string(d[i] + d[i + 1]) != "\n" && !(string(d[i] + d[i + 1]) == " " || string(d[i] + d[i + 1]) == "," || string(d[i] + d[i + 1]) == "." || string(d[i] + d[i + 1]) == "!" || string(d[i] + d[i + 1]) == "?" || string(d[i] + d[i + 1]) == ";" || string(d[i] + d[i + 1]) == ":")) {
+        s += string(d[i] + d[i + 1])
+      } else if (string(d[i] + d[i + 1]) == " " || string(d[i] + d[i + 1]) == "," || string(d[i] + d[i + 1]) == "." || string(d[i] + d[i + 1]) == "!" || string(d[i] + d[i + 1]) == "?" || string(d[i] + d[i + 1]) == ";" || string(d[i] + d[i + 1]) == ":"){
+        mem[strings.ToLower(s)]++
+        s = ""
+      } else if (string(d[i] + d[i + 1]) == "\n") {
+        mem[strings.ToLower(s)]++
+        s = ""
+        mem["\n"]++
+      }
+    }
+    mem[strings.ToLower(s)]++
   }
 }
 
@@ -194,9 +207,7 @@ func main() {
     s += read
     s += " "
   }
-  fmt.Println(s)
   op, n, list := getop(s)
-  fmt.Println(op, n)
   if (op == "topn") {
     for i := range list {
       f, err := os.ReadFile(list[i])
