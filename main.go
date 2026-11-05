@@ -6,11 +6,27 @@ import (
   "unicode/utf8"
   "strings"
   "strconv"
+  "unicode"
 )
 
 type pairintstr struct {
   f int
   s string
+}
+
+func strparse2(d string, mem map[string]int) {
+  s := ""
+  for _, i := range d {
+    if (unicode.IsLetter(rune(i))) {
+      s += string(i)
+    } else if (string(i) == "\n") {
+      mem["\n"]++
+      s = ""
+    }else {
+      mem[s]++
+      s = ""
+    }
+  }
 }
 
 func strparse(d string, mem map[string]int) {
@@ -226,7 +242,7 @@ func main() {
         /*d := make([]byte, 1000)
         q, _ := f.Read(d)*/
         mem := make(map[string]int)
-        strparse(string(f), mem)
+        strparse2(string(f), mem)
         fmt.Println(list[i], ":")
         topn(n, mem)
         fmt.Println()
@@ -245,7 +261,7 @@ func main() {
         strparse(string(d[:q]), mem)*/
         fmt.Println(list[i], ":")
         mem := make(map[string]int)
-        strparse(string(d), mem)
+        strparse2(string(d), mem)
         info(mem)
         fmt.Println()
       }
