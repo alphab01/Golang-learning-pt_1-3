@@ -198,8 +198,6 @@ func main() {
 				if err != nil {
 					fmt.Println("no file:(((")
 				} else {
-					/*d := make([]byte, 1000)
-					  q, _ := f.Read(d)*/
 					mem := make(map[string]int)
 					strparse2(string(f), mem)
 					fmt.Println(list[i], ":")
@@ -215,11 +213,6 @@ func main() {
 				if err != nil {
 					fmt.Println("not file 0_o")
 				} else {
-					/*
-					   d := make([]byte, 1000)
-					   q, _ := f.Read(d)
-					   mem := make(map[string]int)
-					   strparse(string(d[:q]), mem)*/
 					fmt.Println(list[i], ":")
 					mem := make(map[string]int)
 					strparse2(string(d), mem)
@@ -232,25 +225,4 @@ func main() {
 	} else {
 		fmt.Println("err, operation not found", op)
 	}
-	/*var s, reg string
-	  fmt.Scan(&s, &reg)
-	  //fmt.Println(s)
-	  f, err := os.Open(s)
-	  if (err != nil) {
-	    fmt.Println("no file:((")
-	  } else {
-	    d := make([]byte, 1000)
-	    q, _ := f.Read(d)
-	    //fmt.Println(string(d))
-	    mem := make(map[string]int)
-	    strparse(string(d[:q]), mem)
-	    //fmt.Println(mem["kirill"])
-	    if (reg == "stats") {
-	      info(mem)
-	    } else {
-	      var c int
-	      fmt.Scan(&c)
-	      topn(c, mem)
-	    }
-	  }*/
 }
