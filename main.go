@@ -141,7 +141,6 @@ func info(mem map[string]int) {
   s := 0
   for i, m := range mem {
     if (unicode.IsLetter(rune(i[0]))) {
-      fmt.Println(i)
       s += len(i) * m
     }
   }
