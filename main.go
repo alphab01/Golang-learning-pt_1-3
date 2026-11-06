@@ -27,7 +27,7 @@ func strparse2(d string, mem map[string]int) {
       s = ""
     }else {
       if (s != "") {
-        mem[string.ToLower(s)]++
+        mem[strings.ToLower(s)]++
       }
       s = ""
     }
@@ -242,34 +242,38 @@ func main() {
   if (op == "topn") {
     for i := range list {
       f, err := os.ReadFile(list[i])
-      if (err != nil) {
-        fmt.Println("no file:(((")
-      } else {
-        /*d := make([]byte, 1000)
-        q, _ := f.Read(d)*/
-        mem := make(map[string]int)
-        strparse2(string(f), mem)
-        fmt.Println(list[i], ":")
-        topn(n, mem)
-        fmt.Println()
+      if (string(list[i]) != "" && string(list[i]) != " ") {
+        if (err != nil) {
+          fmt.Println("no file:(((")
+        } else {
+          /*d := make([]byte, 1000)
+          q, _ := f.Read(d)*/
+          mem := make(map[string]int)
+          strparse2(string(f), mem)
+          fmt.Println(list[i], ":")
+          topn(n, mem)
+          fmt.Println()
+        }
       }
     }
   } else if (op == "stats"){
     for i := range list {
-      d, err := os.ReadFile(list[i])
-      if (err != nil) {
-        fmt.Println("not file 0_o")
-      } else {
-        /*
-        d := make([]byte, 1000)
-        q, _ := f.Read(d)
-        mem := make(map[string]int)
-        strparse(string(d[:q]), mem)*/
-        fmt.Println(list[i], ":")
-        mem := make(map[string]int)
-        strparse2(string(d), mem)
-        info(mem)
-        fmt.Println()
+      if (string(list[i]) != "" && string(list[i]) != " ") {
+        d, err := os.ReadFile(list[i])
+        if (err != nil) {
+          fmt.Println("not file 0_o")
+        } else {
+          /*
+          d := make([]byte, 1000)
+          q, _ := f.Read(d)
+          mem := make(map[string]int)
+          strparse(string(d[:q]), mem)*/
+          fmt.Println(list[i], ":")
+          mem := make(map[string]int)
+          strparse2(string(d), mem)
+          info(mem)
+          fmt.Println()
+        }
       }
     }
   } else {
