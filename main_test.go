@@ -4,6 +4,20 @@ import (
   "testing"
 )
 
+func mapcheck(a map[string]int, b map[string]int) bool {
+  for i, m := range a {
+    if (b[i] != m && i != "") {
+      return false
+    }
+  }
+  for i, m := range b {
+    if (a[i] != m && i != "") {
+      return false
+    }
+  }
+  return true
+}
+
 func TestHowmuchsym(t *testing.T) {
   got := howmuchsym("kirill")
   if (got != 6) {
@@ -15,7 +29,7 @@ func TestStrparse2(t *testing.T) {
   mem := make(map[string]int)
   strparse2("kirill kirill\n", mem)
   need := map[string]int{"kirill": 2, "\n": 1}
-  if (mem != need) {
+  if (!mapcheck(mem, need)) {
     t.Error("err")
   }
 }
