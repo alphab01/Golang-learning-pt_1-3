@@ -32,6 +32,7 @@ func strparse2(d string, mem map[string]int) {
       s = ""
     }
   }
+  mem[strings.ToLower(s)]++
 }
 
 func strparse(d string, mem map[string]int) {
@@ -173,7 +174,6 @@ func info(mem map[string]int) {
 
 func getop(read string) (op string, n int, list []string){
   s := ""
-  fmt.Println(read)
   for i := 0; i < len(read); i++ {
     if (string(read[i]) == " ") {
       if (s == "topn") {
