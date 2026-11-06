@@ -32,7 +32,9 @@ func strparse2(d string, mem map[string]int) {
       s = ""
     }
   }
-  mem[strings.ToLower(s)]++
+  if (s != "") {
+    mem[strings.ToLower(s)]++
+  }
 }
 
 func strparse(d string, mem map[string]int) {
