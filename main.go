@@ -141,13 +141,6 @@ func info(mem map[string]int) {
   s := 0
   for i, m := range mem {
     if (i != "" && i != " " && i != "\n") {
-      s += len(i) * m
-    }
-  }
-  fmt.Println("byte -", s)
-  s = 0
-  for i, m := range mem {
-    if (i != "" && i != " " && i != "\n") {
       s += m
     }
   }
@@ -272,6 +265,7 @@ func main() {
           fmt.Println(list[i], ":")
           mem := make(map[string]int)
           strparse2(string(d), mem)
+          fmt.Println("byte -", len(d))
           info(mem)
           fmt.Println()
         }
