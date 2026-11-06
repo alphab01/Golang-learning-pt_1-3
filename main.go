@@ -1,298 +1,298 @@
 package main
 
 import (
-  "fmt"
-  "os"
-  "unicode/utf8"
-  "strings"
-  "strconv"
-  "unicode"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
 type pairintstr struct {
-  f int
-  s string
+	f int
+	s string
 }
 
 func strparse2(d string, mem map[string]int) {
-  s := ""
-  for _, i := range d {
-    if (unicode.IsLetter(rune(i))) {
-      s += string(i)
-    } else if (string(i) == "\n") {
-      if (s != "") {
-        mem[strings.ToLower(s)]++
-      }
-      mem["\n"]++
-      s = ""
-    }else {
-      if (s != "") {
-        mem[strings.ToLower(s)]++
-      }
-      s = ""
-    }
-  }
-  if (s != "") {
-    mem[strings.ToLower(s)]++
-  }
+	s := ""
+	for _, i := range d {
+		if unicode.IsLetter(rune(i)) {
+			s += string(i)
+		} else if string(i) == "\n" {
+			if s != "" {
+				mem[strings.ToLower(s)]++
+			}
+			mem["\n"]++
+			s = ""
+		} else {
+			if s != "" {
+				mem[strings.ToLower(s)]++
+			}
+			s = ""
+		}
+	}
+	if s != "" {
+		mem[strings.ToLower(s)]++
+	}
 }
 
 func strparse(d string, mem map[string]int) {
-  if (len(d) == utf8.RuneCountInString(d)) {
-    s := ""
-    for i := 0; i < utf8.RuneCountInString(d); i++ {
-      if (string(d[i]) != " " && string(d[i]) != "\n" && !(string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":")) {
-        s += string(d[i])
-      } else if (string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":"){
-        mem[strings.ToLower(s)]++
-        s = ""
-      } else if (string(d[i]) == "\n") {
-        mem[strings.ToLower(s)]++
-        s = ""
-        mem["\n"]++
-      }
-    }
-    mem[strings.ToLower(s)]++
-  } else {
-    s := ""
-    for i := 0; i < len(d); {
-      if (string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":"){
-        mem[strings.ToLower(s)]++
-        s = ""
-        i++
-      } else if (string(d[i]) == "\n") {
-        mem[strings.ToLower(s)]++
-        s = ""
-        mem["\n"]++
-        i++
-      } else {
-        if (d[i] > 127) {
-          s += string(d[i:i + 2])
-          i += 2
-        } else {
-          s += string(d[i])
-          i++
-        }
-      }
-    }
-    mem[strings.ToLower(s)]++
-  }
+	if len(d) == utf8.RuneCountInString(d) {
+		s := ""
+		for i := 0; i < utf8.RuneCountInString(d); i++ {
+			if string(d[i]) != " " && string(d[i]) != "\n" && !(string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":") {
+				s += string(d[i])
+			} else if string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":" {
+				mem[strings.ToLower(s)]++
+				s = ""
+			} else if string(d[i]) == "\n" {
+				mem[strings.ToLower(s)]++
+				s = ""
+				mem["\n"]++
+			}
+		}
+		mem[strings.ToLower(s)]++
+	} else {
+		s := ""
+		for i := 0; i < len(d); {
+			if string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":" {
+				mem[strings.ToLower(s)]++
+				s = ""
+				i++
+			} else if string(d[i]) == "\n" {
+				mem[strings.ToLower(s)]++
+				s = ""
+				mem["\n"]++
+				i++
+			} else {
+				if d[i] > 127 {
+					s += string(d[i : i+2])
+					i += 2
+				} else {
+					s += string(d[i])
+					i++
+				}
+			}
+		}
+		mem[strings.ToLower(s)]++
+	}
 }
 
 func howmuchsym(a string) int {
-  s := 0
-  for range a {
-    s++
-  }
-  return s
+	s := 0
+	for range a {
+		s++
+	}
+	return s
 }
 
 func topn(d int, mem map[string]int) {
-  var q []pairintstr
-  for i, m := range mem {
-    if (i != "" && i != " " && i != "\n") {
-      p := pairintstr{f: m, s: i}
-      q = append(q, p)
-    }
-  }
-  for i := 0; i < len(q); i++ {
-    for j := 0; j < len(q) - 1; j++ {
-      if (q[j].f < q[j + 1].f) {
-        p := pairintstr{f: q[j].f, s: q[j].s}
-        q[j].f = q[j + 1].f
-        q[j].s = q[j + 1].s
-        q[j + 1].f = p.f
-        q[j + 1].s = p.s
-      } else if (q[j].f == q[j + 1].f) {
-        d1 := 0
-        for k := 0; k < utf8.RuneCountInString(q[j].s) && k < utf8.RuneCountInString(q[j + 1].s); k++ {
-          if ((q[j].s)[k] < (q[j + 1].s)[k]) {
-            d1 = 1
-            break
-          } else if ((q[j].s)[k] > (q[j + 1].s)[k]) {
-            d1 = 2
-            break
-          }
-        }
-        if (d1 == 0) {
-          if (utf8.RuneCountInString(q[j].s) < utf8.RuneCountInString(q[j + 1].s)) {
-            d1 = 1
-          } else {
-            d1 = 2
-          }
-        }
-        if (d1 == 2) {
-          p := pairintstr{f: q[j].f, s: q[j].s}
-          q[j].f = q[j + 1].f
-          q[j].s = q[j + 1].s
-          q[j + 1].f = p.f
-          q[j + 1].s = p.s
-        }
-      }
-    }
-  }
-  for i := 0; i < d && i < len(q); i++ {
-    s := fmt.Sprintf("%d.", i + 1)
-    fmt.Println(s, q[i].f, " - ", q[i].s)
-  }
+	var q []pairintstr
+	for i, m := range mem {
+		if i != "" && i != " " && i != "\n" {
+			p := pairintstr{f: m, s: i}
+			q = append(q, p)
+		}
+	}
+	for i := 0; i < len(q); i++ {
+		for j := 0; j < len(q)-1; j++ {
+			if q[j].f < q[j+1].f {
+				p := pairintstr{f: q[j].f, s: q[j].s}
+				q[j].f = q[j+1].f
+				q[j].s = q[j+1].s
+				q[j+1].f = p.f
+				q[j+1].s = p.s
+			} else if q[j].f == q[j+1].f {
+				d1 := 0
+				for k := 0; k < utf8.RuneCountInString(q[j].s) && k < utf8.RuneCountInString(q[j+1].s); k++ {
+					if (q[j].s)[k] < (q[j+1].s)[k] {
+						d1 = 1
+						break
+					} else if (q[j].s)[k] > (q[j+1].s)[k] {
+						d1 = 2
+						break
+					}
+				}
+				if d1 == 0 {
+					if utf8.RuneCountInString(q[j].s) < utf8.RuneCountInString(q[j+1].s) {
+						d1 = 1
+					} else {
+						d1 = 2
+					}
+				}
+				if d1 == 2 {
+					p := pairintstr{f: q[j].f, s: q[j].s}
+					q[j].f = q[j+1].f
+					q[j].s = q[j+1].s
+					q[j+1].f = p.f
+					q[j+1].s = p.s
+				}
+			}
+		}
+	}
+	for i := 0; i < d && i < len(q); i++ {
+		s := fmt.Sprintf("%d.", i+1)
+		fmt.Println(s, q[i].f, " - ", q[i].s)
+	}
 }
 
 func info(mem map[string]int) {
-  s := 0
-  for i, m := range mem {
-    if (i != "" && i != " " && i != "\n") {
-      s += m
-    }
-  }
-  fmt.Println("words -", s)
-  s = 0
-  for i, m := range mem {
-    if (i != "" && i != " " && i != "\n") {
-      s += (howmuchsym(i) * m)
-    }
-  }
-  fmt.Println("syms -", s)
-  fmt.Println("strok -", mem["\n"])
-  ma := 0
-  str := ""
-  for i, _ := range mem {
-    if (i != "" && i != " " && i != "\n") {
-      if (ma < utf8.RuneCountInString(i)) {
-        ma = utf8.RuneCountInString(i)
-        str = i
-      }
-    }
-  }
-  fmt.Println("MOST BIG -", str)
+	s := 0
+	for i, m := range mem {
+		if i != "" && i != " " && i != "\n" {
+			s += m
+		}
+	}
+	fmt.Println("words -", s)
+	s = 0
+	for i, m := range mem {
+		if i != "" && i != " " && i != "\n" {
+			s += (howmuchsym(i) * m)
+		}
+	}
+	fmt.Println("syms -", s)
+	fmt.Println("strok -", mem["\n"])
+	ma := 0
+	str := ""
+	for i, _ := range mem {
+		if i != "" && i != " " && i != "\n" {
+			if ma < utf8.RuneCountInString(i) {
+				ma = utf8.RuneCountInString(i)
+				str = i
+			}
+		}
+	}
+	fmt.Println("MOST BIG -", str)
 }
 
-func getop(read string) (op string, n int, list []string){
-  s := ""
-  for i := 0; i < len(read); i++ {
-    if (string(read[i]) == " ") {
-      if (s == "topn") {
-        op = s
-        j := i + 1
-        s = ""
-        for j < len(read) {
-          if (string(read[j]) != " ") {
-            s += string(read[j])
-          } else {
-            n, _ = strconv.Atoi(s)
-            k := j + 1
-            s = ""
-            for k < len(read) {
-              if (string(read[k]) == " ") {
-                list = append(list, s)
-                s = ""
-              } else {
-                s += string(read[k])
-              }
-              k++
-            }
-            list = append(list, s)
-            return
-          }
-          j++
-        }
-      } else {
-        op = s
-        n = 0
-        k := i + 1
-        s = ""
-        for k < len(read) {
-          if (string(read[k]) == " ") {
-            list = append(list, s)
-            s = ""
-          } else {
-            s += string(read[k])
-          }
-          k++
-        }
-        list = append(list, s)
-        return
-      }
-    } else {
-      s += string(read[i])
-    }
-  }
-  n = 0
-  op = "notgiven"
-  return
+func getop(read string) (op string, n int, list []string) {
+	s := ""
+	for i := 0; i < len(read); i++ {
+		if string(read[i]) == " " {
+			if s == "topn" {
+				op = s
+				j := i + 1
+				s = ""
+				for j < len(read) {
+					if string(read[j]) != " " {
+						s += string(read[j])
+					} else {
+						n, _ = strconv.Atoi(s)
+						k := j + 1
+						s = ""
+						for k < len(read) {
+							if string(read[k]) == " " {
+								list = append(list, s)
+								s = ""
+							} else {
+								s += string(read[k])
+							}
+							k++
+						}
+						list = append(list, s)
+						return
+					}
+					j++
+				}
+			} else {
+				op = s
+				n = 0
+				k := i + 1
+				s = ""
+				for k < len(read) {
+					if string(read[k]) == " " {
+						list = append(list, s)
+						s = ""
+					} else {
+						s += string(read[k])
+					}
+					k++
+				}
+				list = append(list, s)
+				return
+			}
+		} else {
+			s += string(read[i])
+		}
+	}
+	n = 0
+	op = "notgiven"
+	return
 }
 
 func main() {
-  s := ""
-  var read string
-  for {
-    _, err := fmt.Scan(&read)
-    if (err != nil) {
-      break
-    }
-    s += read
-    s += " "
-  }
-  op, n, list := getop(s)
-  if (op == "topn") {
-    for i := range list {
-      f, err := os.ReadFile(list[i])
-      if (string(list[i]) != "" && string(list[i]) != " ") {
-        if (err != nil) {
-          fmt.Println("no file:(((")
-        } else {
-          /*d := make([]byte, 1000)
-          q, _ := f.Read(d)*/
-          mem := make(map[string]int)
-          strparse2(string(f), mem)
-          fmt.Println(list[i], ":")
-          topn(n, mem)
-          fmt.Println()
-        }
-      }
-    }
-  } else if (op == "stats"){
-    for i := range list {
-      if (string(list[i]) != "" && string(list[i]) != " ") {
-        d, err := os.ReadFile(list[i])
-        if (err != nil) {
-          fmt.Println("not file 0_o")
-        } else {
-          /*
-          d := make([]byte, 1000)
-          q, _ := f.Read(d)
-          mem := make(map[string]int)
-          strparse(string(d[:q]), mem)*/
-          fmt.Println(list[i], ":")
-          mem := make(map[string]int)
-          strparse2(string(d), mem)
-          fmt.Println("byte -", len(d))
-          info(mem)
-          fmt.Println()
-        }
-      }
-    }
-  } else {
-    fmt.Println("err, operation not found", op)
-  }
-  /*var s, reg string
-  fmt.Scan(&s, &reg)
-  //fmt.Println(s)
-  f, err := os.Open(s)
-  if (err != nil) {
-    fmt.Println("no file:((")
-  } else {
-    d := make([]byte, 1000)
-    q, _ := f.Read(d)
-    //fmt.Println(string(d))
-    mem := make(map[string]int)
-    strparse(string(d[:q]), mem)
-    //fmt.Println(mem["kirill"])
-    if (reg == "stats") {
-      info(mem)
-    } else {
-      var c int
-      fmt.Scan(&c)
-      topn(c, mem)
-    }
-  }*/
+	s := ""
+	var read string
+	for {
+		_, err := fmt.Scan(&read)
+		if err != nil {
+			break
+		}
+		s += read
+		s += " "
+	}
+	op, n, list := getop(s)
+	if op == "topn" {
+		for i := range list {
+			f, err := os.ReadFile(list[i])
+			if string(list[i]) != "" && string(list[i]) != " " {
+				if err != nil {
+					fmt.Println("no file:(((")
+				} else {
+					/*d := make([]byte, 1000)
+					  q, _ := f.Read(d)*/
+					mem := make(map[string]int)
+					strparse2(string(f), mem)
+					fmt.Println(list[i], ":")
+					topn(n, mem)
+					fmt.Println()
+				}
+			}
+		}
+	} else if op == "stats" {
+		for i := range list {
+			if string(list[i]) != "" && string(list[i]) != " " {
+				d, err := os.ReadFile(list[i])
+				if err != nil {
+					fmt.Println("not file 0_o")
+				} else {
+					/*
+					   d := make([]byte, 1000)
+					   q, _ := f.Read(d)
+					   mem := make(map[string]int)
+					   strparse(string(d[:q]), mem)*/
+					fmt.Println(list[i], ":")
+					mem := make(map[string]int)
+					strparse2(string(d), mem)
+					fmt.Println("byte -", len(d))
+					info(mem)
+					fmt.Println()
+				}
+			}
+		}
+	} else {
+		fmt.Println("err, operation not found", op)
+	}
+	/*var s, reg string
+	  fmt.Scan(&s, &reg)
+	  //fmt.Println(s)
+	  f, err := os.Open(s)
+	  if (err != nil) {
+	    fmt.Println("no file:((")
+	  } else {
+	    d := make([]byte, 1000)
+	    q, _ := f.Read(d)
+	    //fmt.Println(string(d))
+	    mem := make(map[string]int)
+	    strparse(string(d[:q]), mem)
+	    //fmt.Println(mem["kirill"])
+	    if (reg == "stats") {
+	      info(mem)
+	    } else {
+	      var c int
+	      fmt.Scan(&c)
+	      topn(c, mem)
+	    }
+	  }*/
 }
