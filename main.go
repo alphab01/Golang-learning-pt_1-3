@@ -140,7 +140,7 @@ func topn(d int, mem map[string]int) {
 func info(mem map[string]int) {
   s := 0
   for i, m := range mem {
-    if (unicode.IsLetter(rune(i[0]))) {
+    if (i != "" && i != " " && i != "\n") {
       s += len(i) * m
     }
   }
