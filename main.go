@@ -20,10 +20,15 @@ func strparse2(d string, mem map[string]int) {
     if (unicode.IsLetter(rune(i))) {
       s += string(i)
     } else if (string(i) == "\n") {
+      if (s != "") {
+        mem[strings.ToLower(s)]++
+      }
       mem["\n"]++
       s = ""
     }else {
-      mem[s]++
+      if (s != "") {
+        mem[string.ToLower(s)]++
+      }
       s = ""
     }
   }
@@ -132,7 +137,8 @@ func topn(d int, mem map[string]int) {
 func info(mem map[string]int) {
   s := 0
   for i, m := range mem {
-    if (i != "" && i != " " && i != "\n") {
+    if (unicode.IsLetter(rune(i[0]))) {
+      fmt.Println(i)
       s += len(i) * m
     }
   }
