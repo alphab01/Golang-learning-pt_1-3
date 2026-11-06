@@ -37,48 +37,6 @@ func strparse2(d string, mem map[string]int) {
 	}
 }
 
-func strparse(d string, mem map[string]int) {
-	if len(d) == utf8.RuneCountInString(d) {
-		s := ""
-		for i := 0; i < utf8.RuneCountInString(d); i++ {
-			if string(d[i]) != " " && string(d[i]) != "\n" && !(string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":") {
-				s += string(d[i])
-			} else if string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":" {
-				mem[strings.ToLower(s)]++
-				s = ""
-			} else if string(d[i]) == "\n" {
-				mem[strings.ToLower(s)]++
-				s = ""
-				mem["\n"]++
-			}
-		}
-		mem[strings.ToLower(s)]++
-	} else {
-		s := ""
-		for i := 0; i < len(d); {
-			if string(d[i]) == " " || string(d[i]) == "," || string(d[i]) == "." || string(d[i]) == "!" || string(d[i]) == "?" || string(d[i]) == ";" || string(d[i]) == ":" {
-				mem[strings.ToLower(s)]++
-				s = ""
-				i++
-			} else if string(d[i]) == "\n" {
-				mem[strings.ToLower(s)]++
-				s = ""
-				mem["\n"]++
-				i++
-			} else {
-				if d[i] > 127 {
-					s += string(d[i : i+2])
-					i += 2
-				} else {
-					s += string(d[i])
-					i++
-				}
-			}
-		}
-		mem[strings.ToLower(s)]++
-	}
-}
-
 func howmuchsym(a string) int {
 	s := 0
 	for range a {
