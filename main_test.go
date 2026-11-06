@@ -33,3 +33,12 @@ func TestStrparse2(t *testing.T) {
     t.Error("err")
   }
 }
+
+func TestStrparse3(t *testing.T) {
+  mem := make(map[string]int)
+  strparse2("привет мир", mem)
+  need := map[string]int{"привет": 1, "мир": 1}
+  if (!mapcheck(mem, need)) {
+    t.Error("err")
+  }
+}
